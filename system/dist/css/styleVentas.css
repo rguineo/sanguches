@@ -1,0 +1,29 @@
+.fechaVenta {
+
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.col-form-label {
+    color: green;
+}
+
+.TotalVenta {
+    text-align: right;
+}
+
+.btn-guardar{
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.footer{
+    background: grey;
+    text-align: center;
+    color: white;
+    padding: 15px;
+}
+
+.TablaExtras {
+    font-size: 12px;
+}
