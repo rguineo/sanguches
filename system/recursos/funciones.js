@@ -22,15 +22,16 @@ $(document).ready(function(){
     $("#ventas").submit(function (e) {
         e.preventDefault()
         
-        swal({
-            title: '¿El pedido está correcto?',
-            text: "Se enviará comanda !",
-            icon: 'warning',
-            buttons: true,
-            dangerMode: true,
-          }).then((willSend) => {
-              if (willSend){
-
+		swal({
+            title: '¿El pedido esta correcto?',
+            text: "Se enviará la comanda a cocina!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, Enviar!'
+          }).then((result) => {
+            if (result.value) {
                 var items = []
                 // Extraer datos de la tabla
 
@@ -58,12 +59,65 @@ $(document).ready(function(){
                 console.log(datos)
                 enviarDatos(datos)
 
+
+
               }
           })	
 
     })
 
 })
+
+function enviarDatos(datos){
+    
+    var tipoOp = $('#tipoOperacion').val()
+    var total = $('#TotalGral').val()
+    var nombre = $('#nombreCliente').val()
+
+    console.log(tipoOp)
+    console.log(total)
+    console.log(nombre)
+    var formu = new FormData();
+
+    formu.append("tipoOperacion", tipoOp)
+    formu.append("total", total)
+    formu.append("nombre", nombre)
+    formu.append("glosa", datos)
+
+    // var atributos = {"tipoOperacion": tipoOp, "TotalGral": total, "nombreCliente": nombre}
+
+    // orden.items.push(atributos)
+
+    // var datos = JSON.stringify(orden)
+    // console.log(datos)  
+
+    $.ajax({
+        url: 'ajax/ajaxComanda.php',
+        type: 'POST',
+        data: formu,
+        success: function(respuesta) {
+            var cadena = $.trim(respuesta)
+            
+            if ( cadena == "ok") {
+                swal(
+                  'Enviada/Guardada!',
+                  'La comanda ha sido enviada con éxito',
+                  'success'
+                ).then((result) => {
+                  if (result.value) {
+                    window.location = "venta2.php"
+                  }
+                })
+            }
+        }
+
+    })
+}
+
+
+
+
+
 
 var cont=0
 
@@ -187,15 +241,3 @@ function agregarAd(){
 
 }
 
-function enviarDatos(datos){
-    console.log("Enviar Datos ajax")   
-    $.ajax({
-        url: "ajax/ajaxComanda.php",
-        type: "POST",
-        // data: "codigo=algo",
-        // success: function (response) {
-        //     console.log(response)
-        //     //swal("Done!", "It was succesfully deleted!", "success");
-        // }
-    })
-}
