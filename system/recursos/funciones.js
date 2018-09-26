@@ -54,13 +54,50 @@ $(document).ready(function(){
                 
                 var Orden = {}
                 Orden.items = items
-                console.log(Orden)
-                var datos = JSON.stringify(Orden)
-                console.log(datos)
-                enviarDatos(datos)
+                var datosProd = JSON.stringify(Orden)
+
+                // JSON para refrescos
+                var itemsRef = []
+                $("#tablaRefrescos tbody tr").each(function(el) {
+                    var itemOrder = {}
+                   
+                        var tds = $(this).find("td")
+                        itemOrder.item = tds.filter(":eq(0)").text()
+                        itemOrder.IdRef = tds.filter(":eq(1)").text()
+                        itemOrder.Refresco = tds.filter(":eq(2)").text()
+                        itemOrder.valRef = tds.filter(":eq(3)").text()
+
+                        itemsRef.push(itemOrder)
+        
+                })
+                
+                var OrdenRef = {}
+                OrdenRef.itemsRef = itemsRef
+                var datosRef = JSON.stringify(OrdenRef)
+
+                // JSON para aderezos
+                var itemsAd = []
+                $("#tablaAderezos tbody tr").each(function(el) {
+                    var itemOrder = {}
+                   
+                        var tds = $(this).find("td")
+                        itemOrder.item = tds.filter(":eq(0)").text()
+                        itemOrder.IdAd = tds.filter(":eq(1)").text()
+                        itemOrder.Aderezo = tds.filter(":eq(2)").text()
+                        itemOrder.valAd = tds.filter(":eq(3)").text()
+
+                        itemsAd.push(itemOrder)
+        
+                })
+                
+                var OrdenAd = {}
+                OrdenAd.itemsAd = itemsAd
+                var datosAd = JSON.stringify(OrdenAd)
 
 
 
+
+                enviarDatos(datosProd, datosRef, datosAd)
               }
           })	
 
@@ -68,28 +105,24 @@ $(document).ready(function(){
 
 })
 
-function enviarDatos(datos){
+function enviarDatos(datosProd, datosRef, datosAd){
     
     var tipoOp = $('#tipoOperacion').val()
     var total = $('#TotalGral').val()
     var nombre = $('#nombreCliente').val()
 
-    console.log(tipoOp)
-    console.log(total)
-    console.log(nombre)
+    console.log("DATOS: "+datosProd)
+    console.log("DATOS: "+datosRef)
+    console.log("DATOS: "+datosAd)
     var formu = new FormData($('#ventas')[0]);
 
     formu.append("tipoOperacion", tipoOp)
     formu.append("total", total)
     formu.append("nombre", nombre)
-    formu.append("glosa", datos)
-
-    // var atributos = {"tipoOperacion": tipoOp, "TotalGral": total, "nombreCliente": nombre}
-
-    // orden.items.push(atributos)
-
-    // var datos = JSON.stringify(orden)
-    // console.log(datos)  
+    formu.append("glosaProd", datosProd)
+    formu.append("glosaRef", datosRef)
+    formu.append("glosaAd", datosAd)
+    
 
     $.ajax({
         url: 'ajax/ajaxComanda.php',

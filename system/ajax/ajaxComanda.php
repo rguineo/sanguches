@@ -17,11 +17,13 @@ Class ajaxComanda{
     public function nuevaComanda(){
         $nombre = $this->_nombre;
         $datosProd = $this->_datosProd;
+        $datosRef = $this->_datosRef;
+        $datosAd = $this->_datosAd;
         $metodoPay = $this->_metodoPay;
         $totalVenta = $this->_totalVenta;
 
-        $respuesta = (new ctrComanda)->ctrNuevaComanda($nombre, $datosProd, $metodoPay, $totalVenta);
-        
+        $respuesta = (new ctrComanda)->ctrNuevaComanda($nombre, $datosProd, $datosRef, $datosAd, $metodoPay, $totalVenta);
+
         echo $respuesta;
     }
 
@@ -30,12 +32,16 @@ Class ajaxComanda{
 
 $tipoOperacion = $_POST["tipoOperacion"]; 
 
-$arreglo = json_decode($_POST["glosa"]);
+$arregloProd = json_decode($_POST["glosaProd"]);
+$arregloRef = json_decode($_POST["glosaRef"]);
+$arregloAd = json_decode($_POST["glosaAd"]);
 
 if ( $tipoOperacion == "ingresarComanda"){
     $nuevaComanda = (new ajaxComanda);
     $nuevaComanda ->_nombre = $_POST["nombreCliente"];
-    $nuevaComanda ->_datosProd = $arreglo;
+    $nuevaComanda ->_datosProd = $arregloProd;
+    $nuevaComanda ->_datosRef = $arregloRef;
+    $nuevaComanda ->_datosAd = $arregloAd;
     $nuevaComanda ->_metodoPay = $_POST["modoPago"];
     $nuevaComanda ->_totalVenta = $_POST["TotalGral"];
     $nuevaComanda -> nuevaComanda();
