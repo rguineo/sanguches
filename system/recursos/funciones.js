@@ -77,7 +77,7 @@ function enviarDatos(datos){
     console.log(tipoOp)
     console.log(total)
     console.log(nombre)
-    var formu = new FormData();
+    var formu = new FormData($('#ventas')[0]);
 
     formu.append("tipoOperacion", tipoOp)
     formu.append("total", total)
@@ -95,22 +95,24 @@ function enviarDatos(datos){
         url: 'ajax/ajaxComanda.php',
         type: 'POST',
         data: formu,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
         success: function(respuesta) {
             var cadena = $.trim(respuesta)
-            
+            console.log("Cadena: "+respuesta)
             if ( cadena == "ok") {
-                swal(
-                  'Enviada/Guardada!',
-                  'La comanda ha sido enviada con éxito',
-                  'success'
-                ).then((result) => {
+                swal({
+                  title: "Enviada/Guardada!",
+                  text: "La comanda ha sido enviada con éxito",
+                  type: "success"
+                }).then((result) => {
                   if (result.value) {
                     window.location = "venta2.php"
                   }
                 })
             }
         }
-
     })
 }
 

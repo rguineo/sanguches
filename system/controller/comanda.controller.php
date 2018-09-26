@@ -8,7 +8,7 @@ Class ctrComanda{
         $tabla2 = "det_venta";
         
         $respuesta = (new mdlComanda)->mdlNuevaComanda($tabla1, $tabla2, $nombre, $datosProd, $metodoPay, $totalVenta);
-
+        return $respuesta;
 
     }
 

@@ -1,5 +1,10 @@
 <?php 
 
+require_once "../controller/comanda.controller.php";
+require_once "../models/comanda.model.php";
+
+
+
 Class ajaxComanda{
     public $_nombre;
     public $_datosProd = Array();
@@ -16,6 +21,7 @@ Class ajaxComanda{
         $totalVenta = $this->_totalVenta;
 
         $respuesta = (new ctrComanda)->ctrNuevaComanda($nombre, $datosProd, $metodoPay, $totalVenta);
+        
         echo $respuesta;
     }
 
@@ -24,10 +30,12 @@ Class ajaxComanda{
 
 $tipoOperacion = $_POST["tipoOperacion"]; 
 
+$arreglo = json_decode($_POST["glosa"]);
+
 if ( $tipoOperacion == "ingresarComanda"){
     $nuevaComanda = (new ajaxComanda);
-    $nuevaComanda -> _nombre = $_POST["nombreCliente"];
-    $nuevaComanda ->_datosProd = $data;
+    $nuevaComanda ->_nombre = $_POST["nombreCliente"];
+    $nuevaComanda ->_datosProd = $arreglo;
     $nuevaComanda ->_metodoPay = $_POST["modoPago"];
     $nuevaComanda ->_totalVenta = $_POST["TotalGral"];
     $nuevaComanda -> nuevaComanda();
