@@ -108,6 +108,8 @@ function enviarDatos(datosProd, datosRef, datosAd){
     var total = $('#TotalGral').val()
     var nombre = $('#nombreCliente').val()
 
+    console.log("Datos:"+datosRef)
+
     var formu = new FormData($('#ventas')[0]);
 
     formu.append("tipoOperacion", tipoOp)
@@ -127,6 +129,7 @@ function enviarDatos(datosProd, datosRef, datosAd){
         processData: false,
         success: function(respuesta) {
             var cadena = $.trim(respuesta)
+
             if ( cadena == "true") {
                 swal({
                   title: "Enviada/Guardada!",
@@ -238,7 +241,7 @@ function agregarRf(){
         valorRef = parseInt($(this).attr("valor"))
         idRF = $(this).val()
         cont++
-        var fila='<tr class="selected" id="filaR'+cont+'"><td>'+cont+'</td><td hidden>'+idRF+'</td><td>'+datostxt+'</td><td>$'+valorRef+'</td><td><i class="fas fa-trash-alt" id="'+cont+'" totalPedido="'+valorRef+'" onClick="removerRf(this.id, '+valorRef+')"></i></td></tr>'
+        var fila='<tr class="selected" id="filaR'+cont+'"><td>'+cont+'</td><td hidden>'+idRF+'</td><td>'+datostxt+'</td><td>$ '+valorRef+'</td><td><i class="fas fa-trash-alt" id="'+cont+'" totalPedido="'+valorRef+'" onClick="removerRf(this.id, '+valorRef+')"></i></td></tr>'
         $('#tablaRefrescos').append(fila)
         TotalGeneral = TotalGeneral + valorRef
         refrechTotal(TotalGeneral)
@@ -258,7 +261,7 @@ function agregarAd(){
         valorAde = parseInt($(this).attr("valor"))
         idAD = $(this).val()
         cont++
-        var fila='<tr class="selected" id="filaA'+cont+'"><td>'+cont+'</td><td hidden>'+idAD+'</td><td>'+datostxt+'</td><td>$'+valorAde+'</td><td><i class="fas fa-trash-alt" id="'+cont+'" totalPedido="'+valorAde+'" onClick="removerAd(this.id, '+valorAde+')"></i></td></tr>'
+        var fila='<tr class="selected" id="filaA'+cont+'"><td>'+cont+'</td><td hidden>'+idAD+'</td><td>'+datostxt+'</td><td>$ '+valorAde+'</td><td><i class="fas fa-trash-alt" id="'+cont+'" totalPedido="'+valorAde+'" onClick="removerAd(this.id, '+valorAde+')"></i></td></tr>'
         $('#tablaAderezos').append(fila)
         TotalGeneral = TotalGeneral + valorAde
         refrechTotal(TotalGeneral)

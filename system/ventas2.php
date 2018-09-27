@@ -2,6 +2,9 @@
     require_once "controller/producto.controller.php";
     require_once "models/producto.model.php";
     
+    require_once "controller/comanda.controller.php";
+    require_once "models/comanda.model.php";
+
     require_once "../php/seguridad.php";
 
     date_default_timezone_set("America/Santiago");
@@ -13,6 +16,14 @@
     $ingrediente = (new ControllerProducto)->ctrBuscarIngredientes();
     $aderezos = (new ControllerProducto)->ctrBuscarAderezos();
     $refrescos = (new ControllerProducto)->ctrBuscarRefrescos();
+    $folio = (new ctrComanda)->crtFolio();
+
+    if( $folio["id_venta"] == NULL ){
+        $nfolio = 1;
+    } else {
+        $nfolio = (int)$folio["id_venta"] + 1;
+    }
+    
 
 ?>
 
@@ -49,7 +60,7 @@
         <div class="dropdown-menu dropdown-menu-right" id="drop1">
 
             <a class="dropdown-item" href="#"><i class="fas fa-user"></i> Perfil</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-cogs"></i> Configuraciones</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-search"></i> Comandas</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="../php/cerrar.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
 
@@ -59,7 +70,17 @@
 <div class="container">
     <center><h1>PUNTO DE VENTA - SANGUCHERIA EL AJO</h1></center>
     <p><br></p>
-    <p>Venta</p>
+    <div class="form-group row">
+        <div class="col-lg-5">
+            <h2>VENTA</h2>
+        </div>
+        <label class="col-lg-5 control-label TotalVenta">Folio</label>
+            <div class="col-lg-2">
+                <input type="text" class="form-control folio" name="folio" id="folio" value="<?php echo $nfolio; ?>"/>
+            </div>
+
+    </div>
+    
     <hr>
     <form action="" id="ventas">
         <div class="form-group row">
@@ -100,7 +121,7 @@
             </div>
 
             <div class="col-md-2">
-                <button class="btn btn-success" type="button" id="btnAddProd" title="Agregar al Pedido" disabled><i class="fas fa-plus"></i> Agregar</button>
+                <button class="btn btn-success btn-sm" type="button" id="btnAddProd" title="Agregar al Pedido" disabled><i class="fas fa-plus"></i> Agregar</button>
             </div>
             
         </div>
@@ -110,7 +131,7 @@
        <!-- Aderezo y refrescos -->
         <div class="form-group row">
             <label for="" class="col-sm-1 col-form-label">Aderezos</label>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <select class="custom-select" name="" id="aderezosSelect" multiple>
                     <option value="0"></option>
                     <?php
@@ -120,12 +141,14 @@
                     ?>
                 </select>
             </div>
-            <div class="col-md-1">
-                <button class="btn btn-success" type="button" id="btnAgregarAD" title="Agregar Aderezo"><i class="fas fa-plus"></i></button>
+            <div class="col-md-2">
+                <button class="btn btn-success btn-sm" type="button" id="btnAgregarAD" title="Agregar Aderezo"><i class="fas fa-plus"></i></button>
+                <button class="btn btn-success btn-sm" type="button" id="btnRepetirAD" title="Repetir Aderezo"><i class="fas fa-sync-alt"></i></button>
+
             </div>
 
             <label for="" class="col-sm-1 col-form-label">Refrescos</label>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
 
                 <select class="custom-select" name="" id="refrescosSelect" multiple>
                     <option value="0"></option>
@@ -138,11 +161,28 @@
                 </select>
             </div>
 
-            <div class="col-md-1">
-                <button class="btn btn-success" type="button" id="btnAgregarRF" title="Agregar Refresco"><i class="fas fa-plus"></i></button>
+            <div class="col-md-2">
+                <button class="btn btn-success btn-sm" type="button" id="btnAgregarRF" title="Agregar Refresco"><i class="fas fa-plus"></i></button>
+                <button class="btn btn-success btn-sm" type="button" id="btnRepetirRF" title="Repetir Refresco"><i class="fas fa-sync-alt"></i></button>
+
             </div>
         </div>
         <hr>
+
+    <div class="col-sm-12">
+        <p>
+            <button class="btn btn-outline-success btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Observaciones
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+            <textarea class="form-control" name="" id="" cols="30" rows="2"></textarea>
+            </div>
+        </div>
+    
+    <br>
+    </div>
 
     <div>
         <table class="table tablaProductos" id="tablaProductos">
@@ -198,14 +238,23 @@
     </div><hr>
     <div class="form-group row">
         <label class="col-lg-2 control-label TotalVenta">Total Pedido</label>
-        <div class="col-lg-3">
+        <div class="col-lg-2">
+            <select class="form-control" name="llevar" id="llevar">
+                    <option value="1">Servir en Local</option>
+                    <option value="2">Llevar</option>
+                    <option value="3">Delivery</option>
+            </select>
+        </div>
+
+        <label class="col-lg-2 control-label TotalVenta">Metodo Pago</label>
+        <div class="col-lg-2">
             <select class="form-control" name="modoPago" id="modoPago">
                 <option value="1">EFECTIVO</option>
                 <option value="2">TARJETA CREDITO</option>
                 <option value="3">TARJETA DEBITO</option>
             </select>
         </div>
-        <label class="col-lg-5 control-label TotalVenta">Total Pedido</label>
+        <label class="col-lg-2 control-label TotalVenta">Total Pedido</label>
         <div class="col-lg-2">
             <input type="text" class="form-control" name="TotalGral" id="TotalGral"/>
         </div>

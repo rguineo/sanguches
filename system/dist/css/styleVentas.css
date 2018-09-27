@@ -27,3 +27,9 @@
 .TablaExtras {
     font-size: 12px;
 }
+
+.folio{
+    font-size: 20px;
+    text-align: right;
+    color: darkred;
+}

@@ -39,12 +39,57 @@ Class mdlComanda{
                $sql2->execute();
                $i++;
             }
+
+            $i=0;
+            if ( $datosRef != NULL){
+                foreach ($datosRef as $key => $value) {
+
+                    $valRef = (int)substr($value[$i]->valRef, 2);
+                    
+                    $sql3 = (new Conexion)->conectar()->prepare("INSERT INTO $tabla3() 
+                    VALUES(NULL, :idVenta, :refresco, :valor)");
+                    
+                    $sql3->bindParam(":idVenta", $idVenta, PDO::PARAM_INT);
+                    $sql3->bindParam(":refresco", $value[$i]->Refresco, PDO::PARAM_STR);
+                    $sql3->bindParam(":valor", $valRef, PDO::PARAM_INT);
+
+                $sql3->execute();
+                $i++;
+                }
+            }
+
+            $i=0;
+            if ( $datosAd != NULL){
+                foreach ($datosAd as $key => $value) {
+
+                    $valAd = (int)substr($value[$i]->valAd, 2);
+                    
+                    $sql3 = (new Conexion)->conectar()->prepare("INSERT INTO $tabla4() 
+                    VALUES(NULL, :idVenta, :aderezo, :valorAderezo)");
+                    
+                    $sql3->bindParam(":idVenta", $idVenta, PDO::PARAM_INT);
+                    $sql3->bindParam(":aderezo", $value[$i]->Aderezo, PDO::PARAM_STR);
+                    $sql3->bindParam(":valorAderezo", $valAd, PDO::PARAM_INT);
+
+                $sql3->execute();
+                $i++;
+                }
+            }
+
             return "true";
 
         } else {
             return "error";
         }
     }
+
+
+    public function mdlFolio($tabla){
+        $sql = (new Conexion)->conectar()->prepare("SELECT * FROM venta ORDER BY id_venta DESC LIMIT 1");
+        $sql -> execute();
+        return $sql->fetch();
+    }
+
 }
 
 ?>
