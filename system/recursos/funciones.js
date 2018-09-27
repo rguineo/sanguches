@@ -94,9 +94,6 @@ $(document).ready(function(){
                 OrdenAd.itemsAd = itemsAd
                 var datosAd = JSON.stringify(OrdenAd)
 
-
-
-
                 enviarDatos(datosProd, datosRef, datosAd)
               }
           })	
@@ -111,9 +108,6 @@ function enviarDatos(datosProd, datosRef, datosAd){
     var total = $('#TotalGral').val()
     var nombre = $('#nombreCliente').val()
 
-    console.log("DATOS: "+datosProd)
-    console.log("DATOS: "+datosRef)
-    console.log("DATOS: "+datosAd)
     var formu = new FormData($('#ventas')[0]);
 
     formu.append("tipoOperacion", tipoOp)
@@ -133,15 +127,14 @@ function enviarDatos(datosProd, datosRef, datosAd){
         processData: false,
         success: function(respuesta) {
             var cadena = $.trim(respuesta)
-            console.log("Cadena: "+respuesta)
-            if ( cadena == "ok") {
+            if ( cadena == "true") {
                 swal({
                   title: "Enviada/Guardada!",
                   text: "La comanda ha sido enviada con éxito",
                   type: "success"
                 }).then((result) => {
                   if (result.value) {
-                    window.location = "venta2.php"
+                    window.location = "ventas2.php"
                   }
                 })
             }

@@ -39,11 +39,10 @@ Class mdlComanda{
                $sql2->execute();
                $i++;
             }
+            return "true";
 
-
-            
         } else {
-            
+            return "error";
         }
     }
 }
