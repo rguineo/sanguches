@@ -4,15 +4,12 @@ require_once "conexion.php";
 
 Class mdlComanda{
 
-    public function mdlNuevaComanda($tabla1, $tabla2, $tabla3, $tabla4, $nombre, $datosProd, $datosRef, $datosAd, $metodoPay, $totalVenta){
-
-        $arr1 = $datosProd;
-        $arr2 = $datosRef;
-        $arr3 = $datosAd;
-        
-        $sql = (new Conexion)->conectar()->prepare("INSERT INTO $tabla1() VALUES(NULL, NOW(), :nombre, NULL, :mpago)");
+    public function mdlNuevaComanda($tabla1, $tabla2, $tabla3, $tabla4, $nombre, $observacion, $datosProd, $datosRef, $datosAd, $metodoPay, $totalVenta){
+        $obs = nl2br($observacion);
+        $sql = (new Conexion)->conectar()->prepare("INSERT INTO $tabla1() VALUES(NULL, NOW(), :nombre, :observacion, :mpago)");
 
         $sql->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+        $sql->bindParam(":observacion", $obs, PDO::PARAM_STR);
         $sql->bindParam(":mpago", $metodoPay, PDO::PARAM_STR);
 
         if ( $sql -> execute() ){
@@ -90,6 +87,12 @@ Class mdlComanda{
         return $sql->fetch();
     }
 
+
+    public function mdlTodasComandas(){
+        $sql = (new Conexion)->conectar()->prepare("SELECT * FROM venta ORDER BY id_venta DESC");
+        $sql -> execute();
+        return $sql->fetchAll();
+    }
 }
 
 ?>

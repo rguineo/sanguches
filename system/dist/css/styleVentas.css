@@ -33,3 +33,28 @@
     text-align: right;
     color: darkred;
 }
+
+.table-responsive{
+    overflow-x: initial;
+}
+
+.ventasCard{
+    background: #17a2b8;
+    color: white;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.btn-sm{
+    font-size: 13px;
+}
+
+.cliente{
+    margin-top: 20px;
+}
+
+.tablaProductos th{
+    font-size: 13px;
+}

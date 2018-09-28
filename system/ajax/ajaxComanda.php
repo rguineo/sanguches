@@ -12,17 +12,19 @@ Class ajaxComanda{
     public $_datosAd  = Array();
     public $_metodoPay;
     public $_totalVenta;
+    public $_observacion;
 
 
     public function nuevaComanda(){
         $nombre = $this->_nombre;
+        $observacion = $this->_observacion;
         $datosProd = $this->_datosProd;
         $datosRef = $this->_datosRef;
         $datosAd = $this->_datosAd;
         $metodoPay = $this->_metodoPay;
         $totalVenta = $this->_totalVenta;
 
-        $respuesta = (new ctrComanda)->ctrNuevaComanda($nombre, $datosProd, $datosRef, $datosAd, $metodoPay, $totalVenta);
+        $respuesta = (new ctrComanda)->ctrNuevaComanda($nombre, $observacion, $datosProd, $datosRef, $datosAd, $metodoPay, $totalVenta);
 
         echo $respuesta;
     }
@@ -39,6 +41,7 @@ $arregloAd = json_decode($_POST["glosaAd"]);
 if ( $tipoOperacion == "ingresarComanda"){
     $nuevaComanda = (new ajaxComanda);
     $nuevaComanda ->_nombre = $_POST["nombreCliente"];
+    $nuevaComanda ->_observacion = $_POST["observacion"];
     $nuevaComanda ->_datosProd = $arregloProd;
     $nuevaComanda ->_datosRef = $arregloRef;
     $nuevaComanda ->_datosAd = $arregloAd;

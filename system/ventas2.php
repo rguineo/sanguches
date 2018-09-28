@@ -6,6 +6,7 @@
     require_once "models/comanda.model.php";
 
     require_once "../php/seguridad.php";
+    require_once "modulos/modal-venta.php";
 
     date_default_timezone_set("America/Santiago");
     $fecha = date("Y-m-d G:i:s");
@@ -40,10 +41,14 @@
     
     <link rel="stylesheet" href="dist/css/bootstrap.min.css">
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
-    <!-- <link rel="stylesheet" href="dist/fontawesome/css/fontawesome.css"> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" href="dist/css/select2.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">    <link rel="stylesheet" href="dist/css/select2.css">
     <link rel="stylesheet" href="dist/css/select2-bootstrap.min.css">   
+
+    <!-- CCS para taba dinamica avanzada -->
+    <link href='dist/css/dataTables.bootstrap4.min.css' rel='stylesheet'>
+    <link href='dist/css/dataTables.responsive.css' rel='stylesheet'>
+
+
     <link rel="stylesheet" href="dist/css/styleVentas.css">   
     
 
@@ -60,7 +65,7 @@
         <div class="dropdown-menu dropdown-menu-right" id="drop1">
 
             <a class="dropdown-item" href="#"><i class="fas fa-user"></i> Perfil</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-search"></i> Comandas</a>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#busquedaComanda"><i class="fas fa-search"></i> Comandas</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="../php/cerrar.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
 
@@ -68,7 +73,7 @@
     </div>
 </nav>
 <div class="container">
-    <center><h1>PUNTO DE VENTA - SANGUCHERIA EL AJO</h1></center>
+    <center><h2>PUNTO DE VENTA - SANGUCHERIA EL AJO</h2></center>
     <p><br></p>
     <div class="form-group row">
         <div class="col-lg-5">
@@ -78,26 +83,33 @@
             <div class="col-lg-2">
                 <input type="text" class="form-control folio" name="folio" id="folio" value="<?php echo $nfolio; ?>"/>
             </div>
-
     </div>
     
     <hr>
+    <div class="card">
+        <div class="card-header ventasCard">
+        Configuraci&oacute;n Venta
+        </div>
     <form action="" id="ventas">
-        <div class="form-group row">
-            <label for="" class="col-sm-1 col-form-label">Cliente</label>
-            <div class="col-sm-5">
-                <input class="form-control" type="text" id="nombreCliente" name="nombreCliente" placeholder="Nombre Cliente" required><br>
+ 
+        <div class="form-group row cliente">
+            <div class="col-sm-1"></div>
+            <!-- <label for="" class="col-sm-1 col-form-label">Cliente</label> -->
+            <div class="col-sm-offset-1 col-sm-4">
+                <input class="form-control" type="text" id="nombreCliente" name="nombreCliente" placeholder="Nombre Cliente" required>
             </div>
-            
-            <label for="" class="col-sm-1 col-form-label">Fecha/Hora</label>
+            <div class="col-sm-3">
+            </div>
+            <!-- <label for="" class="col-sm-2 col-form-label">Fecha/Hora</label> -->
             <div class="col-sm-3">
                 <input class="form-control fechaVenta" type="text" id="fechaActual" value="<?php echo $fecha; ?>" name="fechaActual" disabled> 
-            <br>
             </div>
         </div>
-        
-        <div class="form-group row">
-            <label for="" class="col-sm-1 col-form-label">Producto</label>
+        <hr>
+        <div class="form-group row cliente">
+            <!-- <label for="" class="col-sm-1 col-form-label">Producto</label> -->
+            <div class="col-sm-1">
+            </div>
             <div class="col-sm-4">
                 <select class="custom-select" name="productoSelect" id="productoSelect">
                     <?php
@@ -108,8 +120,10 @@
                     ?>
                 </select>
             </div>
+            <div class="col-sm-1">
+            </div>
 
-            <label for="" class="col-sm-1 col-form-label">Ingredientes</label> 
+            <!-- <label for="" class="col-sm-2 col-form-label">Ingredientes</label>  -->
             <div class="col-sm-4">
                 <select class="custom-select" name="ingredienteSelect" id="ingredienteSelect" multiple disabled>
                     <?php
@@ -121,17 +135,17 @@
             </div>
 
             <div class="col-md-2">
-                <button class="btn btn-success btn-sm" type="button" id="btnAddProd" title="Agregar al Pedido" disabled><i class="fas fa-plus"></i> Agregar</button>
+                <button class="btn btn-success btn-sm" type="button" id="btnAddProd" title="Agregar al Pedido" disabled>+ Agregar</button>
             </div>
             
         </div>
-        <br>
-
 
        <!-- Aderezo y refrescos -->
-        <div class="form-group row">
-            <label for="" class="col-sm-1 col-form-label">Aderezos</label>
-            <div class="col-sm-3">
+        <div class="form-group row cliente">
+        <div class="col-sm-1">
+            </div>
+            <!-- <label for="" class="col-sm-1 col-form-label">Aderezos</label> -->
+            <div class="col-sm-4">
                 <select class="custom-select" name="" id="aderezosSelect" multiple>
                     <option value="0"></option>
                     <?php
@@ -141,15 +155,14 @@
                     ?>
                 </select>
             </div>
-            <div class="col-md-2">
-                <button class="btn btn-success btn-sm" type="button" id="btnAgregarAD" title="Agregar Aderezo"><i class="fas fa-plus"></i></button>
-                <button class="btn btn-success btn-sm" type="button" id="btnRepetirAD" title="Repetir Aderezo"><i class="fas fa-sync-alt"></i></button>
-
+            <div class="col-md-1">
+                <button class="btn btn-success btn-sm" type="button" id="btnAgregarAD" title="Agregar Aderezo">+</button>
+                <button class="btn btn-success btn-sm" type="button" id="btnRepetirAD" title="Repetir Aderezo">R</button>
             </div>
 
-            <label for="" class="col-sm-1 col-form-label">Refrescos</label>
-            <div class="col-sm-3">
+            <!-- <label for="" class="col-sm-1 col-form-label">Refrescos</label> -->
 
+            <div class="col-sm-4">
                 <select class="custom-select" name="" id="refrescosSelect" multiple>
                     <option value="0"></option>
                     <?php
@@ -162,13 +175,12 @@
             </div>
 
             <div class="col-md-2">
-                <button class="btn btn-success btn-sm" type="button" id="btnAgregarRF" title="Agregar Refresco"><i class="fas fa-plus"></i></button>
-                <button class="btn btn-success btn-sm" type="button" id="btnRepetirRF" title="Repetir Refresco"><i class="fas fa-sync-alt"></i></button>
+                <button class="btn btn-success btn-sm" type="button" id="btnAgregarRF" title="Agregar Refresco">+</button>
+                <button class="btn btn-success btn-sm" type="button" id="btnRepetirRF" title="Repetir Refresco">R</button>
 
             </div>
         </div>
-        <hr>
-
+    </div>
     <div class="col-sm-12">
         <p>
             <button class="btn btn-outline-success btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -177,7 +189,7 @@
         </p>
         <div class="collapse" id="collapseExample">
             <div class="card card-body">
-            <textarea class="form-control" name="" id="" cols="30" rows="2"></textarea>
+            <textarea class="form-control" name="observacion" id="observacion" cols="30" rows="2"></textarea>
             </div>
         </div>
     
@@ -281,6 +293,9 @@
     <script src="dist/sweetalert/sweetalert2.all.min.js"></script>
     <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script> -->
+
+    <script src="dist/js/jquery.dataTables.min.js"></script>
+    <script src="dist/js/dataTables.bootstrap4.min.js"></script>
 
     <script src="recursos/funciones.js"></script>
     <script>

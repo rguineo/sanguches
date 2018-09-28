@@ -1,6 +1,11 @@
 var TotalGeneral = 0
 
 $(document).ready(function(){
+    // Tablas Dinamicas
+    $('#example').DataTable( {
+        responsive: true
+    })
+
     $('#btnAddProd').click(function(){
         agregar()
     })
@@ -107,14 +112,16 @@ function enviarDatos(datosProd, datosRef, datosAd){
     var tipoOp = $('#tipoOperacion').val()
     var total = $('#TotalGral').val()
     var nombre = $('#nombreCliente').val()
+    var observacion = $('#observacion').val()
 
-    console.log("Datos:"+datosRef)
+    console.log("Datos:"+observacion)
 
     var formu = new FormData($('#ventas')[0]);
 
     formu.append("tipoOperacion", tipoOp)
     formu.append("total", total)
     formu.append("nombre", nombre)
+    formu.append("observacion", observacion)
     formu.append("glosaProd", datosProd)
     formu.append("glosaRef", datosRef)
     formu.append("glosaAd", datosAd)
@@ -271,4 +278,3 @@ function agregarAd(){
     $('#aderezosSelect').val(null).trigger('change') //Resetear Select2
 
 }
-
