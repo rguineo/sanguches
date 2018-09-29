@@ -18,58 +18,63 @@ Class mdlComanda{
             $fila = $sql -> fetch();
 
             $idVenta = $fila["id_venta"];
-            $i=0;
-            foreach ($datosProd as $key => $value) {
+ 
+            $objeto = new StdClass;
+            $objeto = (array)$datosProd;
 
-                $valorProducto = (int)substr($value[$i]->valorProd, 2);
-                $valorIngrediente = (int)substr($value[$i]->valorIng, 2);
+            foreach ($objeto["items"] as $key => $value) {
+
+                $valorProducto = (int)substr($value->valorProd, 2);
+                $valorIngrediente = (int)substr($value->valorIng, 2);
                 
                 $sql2 = (new Conexion)->conectar()->prepare("INSERT INTO $tabla2() 
                 VALUES(NULL, :idVenta, :producto, :ingredientes, :valorProducto, :valoringredientes)");
                 
                 $sql2->bindParam(":idVenta", $idVenta, PDO::PARAM_INT);
-                $sql2->bindParam(":producto", $value[$i]->Producto, PDO::PARAM_STR);
-                $sql2->bindParam(":ingredientes", $value[$i]->Ingredientes, PDO::PARAM_STR);
+                $sql2->bindParam(":producto", $value->Producto, PDO::PARAM_STR);
+                $sql2->bindParam(":ingredientes", $value->Ingredientes, PDO::PARAM_STR);
                 $sql2->bindParam(":valorProducto", $valorProducto, PDO::PARAM_INT);
                 $sql2->bindParam(":valoringredientes", $valorIngrediente, PDO::PARAM_INT);   
 
                $sql2->execute();
-               $i++;
             }
 
-            $i=0;
+            $objeto2 = new StdClass;
+            $objeto2 = (array)$datosRef;           
+   
             if ( $datosRef != NULL){
-                foreach ($datosRef as $key => $value) {
+                foreach ($objeto2["itemsRef"] as $key => $value) {
 
-                    $valRef = (int)substr($value[$i]->valRef, 2);
+                    $valRef = (int)substr($value->valRef, 2);
                     
                     $sql3 = (new Conexion)->conectar()->prepare("INSERT INTO $tabla3() 
                     VALUES(NULL, :idVenta, :refresco, :valor)");
                     
                     $sql3->bindParam(":idVenta", $idVenta, PDO::PARAM_INT);
-                    $sql3->bindParam(":refresco", $value[$i]->Refresco, PDO::PARAM_STR);
+                    $sql3->bindParam(":refresco", $value->Refresco, PDO::PARAM_STR);
                     $sql3->bindParam(":valor", $valRef, PDO::PARAM_INT);
 
                 $sql3->execute();
-                $i++;
+
                 }
             }
 
-            $i=0;
+            $objeto3 = new StdClass;
+            $objeto3 = (array)$datosAd;  
             if ( $datosAd != NULL){
-                foreach ($datosAd as $key => $value) {
+                foreach ($objeto3["itemsAd"] as $key => $value) {
 
-                    $valAd = (int)substr($value[$i]->valAd, 2);
+                    $valAd = (int)substr($value->valAd, 2);
                     
                     $sql3 = (new Conexion)->conectar()->prepare("INSERT INTO $tabla4() 
                     VALUES(NULL, :idVenta, :aderezo, :valorAderezo)");
                     
                     $sql3->bindParam(":idVenta", $idVenta, PDO::PARAM_INT);
-                    $sql3->bindParam(":aderezo", $value[$i]->Aderezo, PDO::PARAM_STR);
+                    $sql3->bindParam(":aderezo", $value->Aderezo, PDO::PARAM_STR);
                     $sql3->bindParam(":valorAderezo", $valAd, PDO::PARAM_INT);
 
                 $sql3->execute();
-                $i++;
+
                 }
             }
 

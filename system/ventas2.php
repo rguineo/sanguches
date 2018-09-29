@@ -157,7 +157,7 @@
             </div>
             <div class="col-md-1">
                 <button class="btn btn-success btn-sm" type="button" id="btnAgregarAD" title="Agregar Aderezo">+</button>
-                <button class="btn btn-success btn-sm" type="button" id="btnRepetirAD" title="Repetir Aderezo">R</button>
+                <button class="btn btn-success btn-sm" type="button" id="btnAddAD" title="Repetir Aderezo">R</button>
             </div>
 
             <!-- <label for="" class="col-sm-1 col-form-label">Refrescos</label> -->
@@ -176,7 +176,7 @@
 
             <div class="col-md-2">
                 <button class="btn btn-success btn-sm" type="button" id="btnAgregarRF" title="Agregar Refresco">+</button>
-                <button class="btn btn-success btn-sm" type="button" id="btnRepetirRF" title="Repetir Refresco">R</button>
+                <button class="btn btn-success btn-sm" type="button" id="btnAddRef" title="Repetir Refresco">R</button>
 
             </div>
         </div>

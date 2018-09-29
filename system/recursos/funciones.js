@@ -12,11 +12,24 @@ $(document).ready(function(){
 
     $('#btnAgregarRF').click(function(){
         agregarRf()
+        $('#refrescosSelect').val(null).trigger('change') //Resetear Select2
+
+    })
+
+    $('#btnAddRef').click(function(){
+        agregarRf()
     })
 
     $('#btnAgregarAD').click(function(){
         agregarAd()
+        $('#aderezosSelect').val(null).trigger('change') //Resetear Select2
     })
+
+    $('#btnAddAD').click(function(){
+        agregarAd()
+    })
+
+    
 
 
     $('#productoSelect').on('change', function(){
@@ -189,7 +202,9 @@ function agregar(){
     reordenar()
     $('#productoSelect').val(null).trigger('change'); //Resetear Select2
     $('#ingredienteSelect').val(null).trigger('change');
+
 }
+
 
 function remover(id, totalPedido){
     $("#fila"+id).remove()
@@ -255,8 +270,6 @@ function agregarRf(){
      })
 
     reordenarRF()
-    $('#refrescosSelect').val(null).trigger('change') //Resetear Select2
-
 }
 
 function agregarAd(){
@@ -274,7 +287,7 @@ function agregarAd(){
         refrechTotal(TotalGeneral)
      })
 
-    reordenarRF()
-    $('#aderezosSelect').val(null).trigger('change') //Resetear Select2
+     reordenarAd()
+   
 
 }
